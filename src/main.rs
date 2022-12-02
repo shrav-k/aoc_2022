@@ -1,3 +1,6 @@
+mod expedition;
+mod utils;
+
 fn main() {
-    println!("Hello, world!");
+    utils::test();
 }
