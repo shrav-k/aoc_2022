@@ -37,4 +37,15 @@ impl Elf {
         self.snacks.push(snack);
         self.calories += calories;
     }
+
+    pub fn add_snacks(&mut self, cal_vec: &Vec<u64>) {
+        for i in 0..cal_vec.len() {
+            let calories = cal_vec[i];
+            let snack = Snack {
+                calories
+            };
+            self.snacks.push(snack);
+            self.calories += calories;
+        }
+    }
 }

@@ -2,6 +2,6 @@ mod expedition;
 mod utils;
 
 fn main() {
-    // utils::test();
-    utils::print_lines("./puzzles/1/test.txt");
+    let exp = utils::read_expedition("./puzzles/1/input.txt");
+    println!("Most calories: {}", exp.most_calories());
 }

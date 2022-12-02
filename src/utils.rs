@@ -1,5 +1,7 @@
 mod read;
 
+use std::default;
+
 use read::read_lines;
 
 use crate::expedition::{
@@ -7,14 +9,25 @@ use crate::expedition::{
     elf::Elf
 };
 
-pub fn print_lines(path: &str) {
+pub fn read_expedition(path: &str) -> Expedition {
+    let mut exp = Expedition::default();
     if let Ok(lines) = read_lines(path) {
+        let mut cal_vec = Vec::new();
         for line in lines {
-            if let Ok(ip) = line {
-                println!("{}", ip);
+            if let Ok(s) = line {
+                match s.parse::<u64>() {
+                    Ok(calories) => cal_vec.push(calories),
+                    Err(_) => {
+                        let mut elf = Elf::default();
+                        elf.add_snacks(&cal_vec);
+                        exp.add_elf(elf);
+                        cal_vec.clear();
+                    }
+                }
             }
         }
     }
+    exp
 }
 
 pub fn test() {
