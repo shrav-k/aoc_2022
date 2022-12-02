@@ -1,9 +1,21 @@
 mod read;
 
+use read::read_lines;
+
 use crate::expedition::{
     Expedition,
     elf::Elf
 };
+
+pub fn print_lines(path: &str) {
+    if let Ok(lines) = read_lines(path) {
+        for line in lines {
+            if let Ok(ip) = line {
+                println!("{}", ip);
+            }
+        }
+    }
+}
 
 pub fn test() {
     let mut expedition = Expedition::default();
