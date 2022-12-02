@@ -1,7 +1,8 @@
 mod expedition;
+mod rps;
 mod utils;
 
 fn main() {
-    let exp = utils::read_expedition("./puzzles/1/input.txt");
-    println!("Most calories: {}", exp.most_calories());
+    // expedition::read_expedition("./puzzles/1/input.txt");
+    rps::read_rps("./puzzles/2/input.txt")
 }
