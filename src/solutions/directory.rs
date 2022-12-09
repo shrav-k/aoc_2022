@@ -11,9 +11,9 @@ pub type DirectoryMap = Arc<RwLock<HashMap<String, Directory>>>;
 #[derive(Debug)]
 struct Directory {
     pub path: String,
-    pub parent: String,
     pub children: Vec<String>,
-    pub files: HashMap<String, u64>
+    pub files: HashMap<String, u64>,
+    pub size: Option<u64>
 }
 
 pub fn read_directory(path: &str) {
@@ -22,9 +22,9 @@ pub fn read_directory(path: &str) {
 
     let root = Directory {
         path: "".to_string(),
-        parent: "".to_string(),
         children: Vec::new(),
-        files: HashMap::new()
+        files: HashMap::new(),
+        size: None
     };
 
     let mut dir_map = dir_map_lock.write().unwrap();
@@ -61,9 +61,9 @@ pub fn read_directory(path: &str) {
 
                         let child = Directory {
                             path,
-                            parent: curr_dir.clone(),
                             children: Vec::new(),
-                            files: HashMap::new()
+                            files: HashMap::new(),
+                            size: None
                         };
                         children.push(child);
                     } else {
@@ -81,15 +81,22 @@ pub fn read_directory(path: &str) {
         }
     }
 
-    let dir_map = dir_map_lock.read().unwrap();
-    for (path, dir) in dir_map.iter() {
-        println!("dir: {:?}", dir);
-    }
-    drop(dir_map);
-
-    let (_, result) = small_sizes(dir_map_lock, "/");
+    let (_, result) = small_sizes(dir_map_lock.clone(), "/");
     println!("result: {}", result);
 
+    let dir_map = dir_map_lock.read().unwrap();
+    let mut to_delete = "/";
+    let mut perfect_size = dir_map.get("/").unwrap().size.unwrap();
+    let threshold = 30000000 - (70000000 - perfect_size);
+    for (_, dir) in dir_map.iter() {
+        let size = dir.size.unwrap();
+        if size < perfect_size && size >= threshold {
+            to_delete = dir.path.as_str();
+            perfect_size = size;
+        }
+        println!("dir: {:?}", dir);
+    }
+    println!("to delete: {}, size: {}", to_delete, perfect_size);
 }
 
 fn small_sizes(dir_map_lock: DirectoryMap, curr_dir: &str) -> (u64, u64) {
@@ -112,6 +119,12 @@ fn small_sizes(dir_map_lock: DirectoryMap, curr_dir: &str) -> (u64, u64) {
     if dir_size < 100000 {
         result += dir_size;
     }
+
+    let mut dir_map = dir_map_lock.write().unwrap();
+    let mut dir = dir_map.get_mut(curr_dir).unwrap();
+    dir.size = Some(dir_size);
+    drop(dir_map);
+
     (dir_size, result)
 }
 
