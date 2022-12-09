@@ -10,5 +10,6 @@ fn main() {
     // cleanup::read_cleanup_2("./puzzles/4/input.txt") // 4
     // crates::read_crates("./puzzles/5/input.txt") // 5
     // datastream::read_datastream("./puzzles/6/input.txt") // 6
-    trees::read_trees("./puzzles/8/input.txt") // 8
+    directory::read_directory("./puzzles/7/input.txt") // 7
+    // trees::read_trees("./puzzles/8/input.txt") // 8
 }
