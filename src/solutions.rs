@@ -4,3 +4,4 @@ pub mod datastream;
 pub mod expedition;
 pub mod rps;
 pub mod rucksack;
+pub mod trees;
