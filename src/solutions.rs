@@ -6,4 +6,5 @@ pub mod expedition;
 pub mod rope;
 pub mod rps;
 pub mod rucksack;
+pub mod signal;
 pub mod trees;

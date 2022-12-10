@@ -12,5 +12,6 @@ fn main() {
     // datastream::read_datastream("./puzzles/6/input.txt") // 6
     // directory::read_directory("./puzzles/7/input.txt") // 7
     // trees::read_trees("./puzzles/8/input.txt") // 8
-    rope::read_rope_2("./puzzles/9/input.txt") // 9
+    // rope::read_rope_2("./puzzles/9/input.txt") // 9
+    signal::read_crt("./puzzles/10/input.txt") // 10
 }
